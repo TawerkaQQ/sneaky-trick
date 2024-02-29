@@ -1,4 +1,6 @@
 from bs4 import BeautifulSoup
+import requests 
+import tqdm
 
 
 class Singleton(object):
@@ -50,3 +52,21 @@ class HtmlManager(Singleton):
 
     def get_all_url_matches(self):
         return self.url_list
+    
+    def _url_connection_check(self, url):
+        try: 
+            response = requests.get(url)
+            if not response.status_code == 200:
+                raise Exception
+        except Exception:
+            print(f'Error connection to {url}, error code: {response.status_code}')
+        return self
+
+
+    def _all_url_connection_check(self):
+        for url in tqdm.tqdm(self.url_list):
+            self._url_connection_check(url)
+        return self
+                 
+
+
