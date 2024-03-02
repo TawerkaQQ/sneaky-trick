@@ -65,6 +65,20 @@ class UrlParserFirefox(UrlParser):
                 f.write(html_content)
         return self
 
-
 class UrlParserChrome(UrlParser):
-    pass
+    def __init__(self, browser):
+        self.options = webdriver.ChromeOptions()
+        self.options.add_argument('--headless')
+        self.driver = webdriver.Chrome(options=self.options)
+        
+    def get_html_from_url(self, url, folder, file_name = 'one_match_Chrome.html'):
+        self.create_target_folder(folder)
+        self.driver.get(url)
+        try:
+            html_content = self.driver.page_source
+            with open(os.path.join(os.getcwd(), folder, file_name), 'w', encoding='utf-8') as f:
+                f.write(html_content)
+        except:
+            print("Something bad")
+
+        return self

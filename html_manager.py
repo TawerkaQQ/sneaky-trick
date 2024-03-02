@@ -1,6 +1,7 @@
-from bs4 import BeautifulSoup
-import requests 
+import requests
 import tqdm
+
+from bs4 import BeautifulSoup
 
 
 class Singleton(object):
