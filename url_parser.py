@@ -1,5 +1,7 @@
 import os
+import pandas as pd
 
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
@@ -26,8 +28,25 @@ class UrlParser(Singleton):
             return super().__new__(UrlParserChrome)
 
     def __init__(self, browser):
+        self.soups = []
+
+    def parse_htmls(self, urls, folder):
         pass
 
+    def get_soup_from_html(self, folder, file_name):
+        path = os.path.join(os.getcwd(), folder, file_name)
+        with open(path, 'r', encoding='utf-8') as f:
+            contents = f.read()
+        soup = BeautifulSoup(contents, 'html.parser')
+        return soup
+
+    def set_all_soups_from_html(self, folder):
+        path = os.path.join(os.getcwd(), folder)
+        files = os.listdir(path)
+        for file in files:
+            soup = self.get_soup_from_html(folder, file)
+            self.soups.append(soup)
+        return self
 
     def create_target_folder(self, folder):
         current_dir = os.getcwd()
@@ -38,40 +57,53 @@ class UrlParser(Singleton):
             pass
         return self
 
+    def setup_firefox_options(self):
+        pass
     def get_html_from_url(self, url):
         pass
 
 class UrlParserFirefox(UrlParser):
     def __init__(self, browser):
         super().__init__(self)
+        self.setup_firefox_options()
+
+    def parse_htmls(self, urls, folder):
+        self.get_all_htmls_from_urls(urls, folder)
+        self.set_all_soups_from_html(folder)
+        return self
+
+    def setup_firefox_options(self):
         self.options = Options()
         self.options.headless = True
         self.service = Service(GeckoDriverManager().install())
         self.driver = webdriver.Firefox(service=self.service,
                                         options=self.options)
+        return self
 
-    def get_html_from_url(self, url, folder, file_name = 'one_match.html'):
+    def get_all_htmls_from_urls(self, url_list, folder):
+        for i, url in enumerate(url_list):
+            self.setup_firefox_options()
+            self.get_html_from_url(url, folder, i)
+        return self
+
+    def get_html_from_url(self, url, folder, file_number):
         self.create_target_folder(folder)
         self.driver.get(url)
-        try:
-            element = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.ID, "myDynamicElement"))
-            )
-        finally:
-            html_content = self.driver.page_source
-            self.driver.quit()
+        html_content = self.driver.page_source
+        self.driver.quit()
 
-            with open(os.path.join(os.getcwd(), folder, file_name), 'w', encoding='utf-8') as f:
-                f.write(html_content)
+        with open(os.path.join(os.getcwd(), folder, f'{file_number+1}_match'), 'w', encoding='utf-8') as f:
+            f.write(html_content)
         return self
+
 
 class UrlParserChrome(UrlParser):
     def __init__(self, browser):
         self.options = webdriver.ChromeOptions()
         self.options.add_argument('--headless')
         self.driver = webdriver.Chrome(options=self.options)
-        
-    def get_html_from_url(self, url, folder, file_name = 'one_match_Chrome.html'):
+
+    def get_html_from_url(self, url, folder, file_name='one_match_Chrome.html'):
         self.create_target_folder(folder)
         self.driver.get(url)
         try:
