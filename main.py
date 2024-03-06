@@ -15,8 +15,8 @@ if __name__ == "__main__":
 
     # Записиали html
     folder = 'matches_html'
-    url_parser = UrlParser('firefox')
-    #url_parser.parse_htmls(urls[:3], folder)
+    url_parser = UrlParser('chrome')
+    url_parser.parse_htmls(urls[:3], folder)
 
     #url_parser.get_all_htmls_from_urls(urls[:3], folder)
     #url_parser.get_soup_from_html('matches_html', )
