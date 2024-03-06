@@ -2,10 +2,10 @@ import pandas as pd
 
 from bs4 import BeautifulSoup
 from url_parser import UrlParser
+
 class Match:
     def __init__(self, soup):
         self.soup = soup
-
         self.features_list = []
         self.columns = []
 
@@ -26,8 +26,8 @@ class Match:
 
 if __name__ == "__main__":
     folder = 'matches_html'
-    parser = UrlParser('firefox')
-    soup = parser.get_soup_from_html(folder, '1_match')
+    parser = UrlParser('chrome')
+    soup = parser.get_soup_from_html(folder, '0.html')
 
     match1 = Match(soup)
     match1.set_features()
