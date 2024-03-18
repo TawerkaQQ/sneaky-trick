@@ -2,12 +2,13 @@ import pandas as pd
 
 from bs4 import BeautifulSoup
 from url_parser import UrlParser
+
 class Match:
     def __init__(self, soup):
         self.soup = soup
-
         self.features_list = []
         self.columns = []
+        self.all_features_list = []
 
     def set_features(self):
         features = [self.soup.find_all('strong')[x].text for x in range(len(self.soup.find_all('strong')))]
@@ -15,22 +16,33 @@ class Match:
         structured_features.append([self.soup.find('title').text, self.soup.find('title').text, self.soup.find('title').text])
         self.features_list = structured_features
         return self
+        
+    def set_all_features(self):
+        for soups in self.soup:
+            self.all_features_list.append(self.set_features(soups))
+        return self
 
     def set_columns(self):
         self.columns = [x[1] for x in self.features_list]
         self.columns.append('Название')
         return self
 
+    def get_features_list(self):
+        return self.all_features_list
+    
     def to_dataframe(self):
         pass
 
 if __name__ == "__main__":
     folder = 'matches_html'
-    parser = UrlParser('firefox')
-    soup = parser.get_soup_from_html(folder, '1_match')
-
+    parser = UrlParser('chrome')
+    soup = parser.get_soup_from_html(folder, '1_match.html')
+    
     match1 = Match(soup)
     match1.set_features()
     match1.set_columns()
+    
     print(match1.features_list)
+    print()
     print(match1.columns)
+    
