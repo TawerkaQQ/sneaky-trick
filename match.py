@@ -19,7 +19,7 @@ class Match:
         
     def set_all_features(self):
         for soups in self.soup:
-            self.all_features_list.append(self.set_features(soups))
+            self.all_features_list.append(self.set_features())
         return self
 
     def set_columns(self):
@@ -28,7 +28,7 @@ class Match:
         return self
 
     def get_features_list(self):
-        return self.all_features_list
+        return self.features_list
     
     def to_dataframe(self):
         pass
