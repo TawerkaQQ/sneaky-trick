@@ -1,8 +1,12 @@
 import os
-from tqdm import tqdm
+import time
 
+from tqdm import tqdm
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
 from webdriver_manager.firefox import GeckoDriverManager
@@ -58,17 +62,17 @@ class UrlParser:
 
     def get_html_from_url(self, url, folder, file_number):
         self.create_target_folder(folder)
+        self.setup_options()
         self.driver.get(url)
+        time.sleep(1.5)
+        #WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'html')))
         html_content = self.driver.page_source
-
-        with open(os.path.join(os.getcwd(), folder, f'{file_number+1}_match.html'), 'w', encoding='utf-8') as f:
+        with open(os.path.join(os.getcwd(), folder, f'{file_number+1}_match.html'), 'w+', encoding='utf-8') as f:
             f.write(html_content)
+        self.driver.quit()
         return self
 
-    def setup_firefox_options(self):
-        pass
-
-    def setup_chrome_options(self):
+    def setup_options(self):
         pass
 
     def get_all_soups(self):
@@ -78,12 +82,13 @@ class UrlParser:
 class UrlParserFirefox(UrlParser):
     def __init__(self, browser):
         super().__init__(self)
-        self.setup_firefox_options()
+        self.setup_options()
 
-    def setup_firefox_options(self):
+    def setup_options(self):
         self.options = Options()
         self.options.headless = True
-        self.service = Service(GeckoDriverManager().install())
+        deiver_path = os.path.join(os.getcwd(), 'geckodriver.exe')
+        self.service = Service(deiver_path)
         self.driver = webdriver.Firefox(service=self.service,
                                         options=self.options)
         return self
@@ -92,9 +97,9 @@ class UrlParserFirefox(UrlParser):
 class UrlParserChrome(UrlParser):
     def __init__(self, browser):
         super().__init__(self)
-        self.setup_chrome_options()
+        self.setup_options()
 
-    def setup_chrome_options(self):
+    def setup_options(self):
         self.options = webdriver.ChromeOptions()
         self.options.add_argument('--headless')
         self.driver = webdriver.Chrome(options=self.options)
