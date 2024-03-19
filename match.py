@@ -37,7 +37,8 @@ class Match:
     # тк вложенность листа 3-ная и пока не понял как разложить)
     def __str__(self):
         for feature in self.features_list:
-            return str(feature)
+            print(feature)
+        return ''
     
     def to_dataframe(self):
         pass
@@ -56,5 +57,5 @@ if __name__ == "__main__":
     print(match1)
     
 
-    print(match1.columns, '\n')
+    # print(match1.columns, '\n')
     

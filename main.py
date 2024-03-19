@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # Записиали html
     folder = 'matches_html'
     url_parser = UrlParser('chrome')
-    url_parser.parse_htmls(urls[:3], folder)
+    url_parser.parse_htmls(urls[:20], folder)
 
     soups = url_parser.get_all_soups()
     # print(soups)
@@ -36,9 +36,15 @@ if __name__ == "__main__":
         matches_futures.append(match.get_features_list())
         # print(matches_futures)
         
+        
+    for match in matches_futures:
+        for feature in match:
+            print(feature)
+        print('=====')
+
     
     # Ожидается вывод N количества статистики за N матчей
-    print(matches_futures)
+    # print(matches_futures)
     
 
         # matches_futures.append(match.set_features())
