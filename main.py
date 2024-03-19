@@ -18,21 +18,29 @@ if __name__ == "__main__":
     # Записиали html
     folder = 'matches_html'
     url_parser = UrlParser('chrome')
-    url_parser.parse_htmls(urls[:2], folder)
+    url_parser.parse_htmls(urls[:3], folder)
 
     soups = url_parser.get_all_soups()
     # print(soups)
     # url_parser.get_all_htmls_from_urls(urls[:3], folder)
     # url_parser.get_soup_from_html('matches_html', )
     # test = url_parser.set_all_soups_from_html(folder)
-    matches_futures = []
     
+    #Cписок для статистики
+    matches_futures = []
+
+    # Чтение нескольких супов и запись статистики из них
     for soup in soups:
         match = Match(soup)
-        match.set_all_features()
-        print('ASGFASGAg')
-        test = match.get_features_list()
-        print(test)
+        match.set_features()
+        matches_futures.append(match.get_features_list())
+        # print(matches_futures)
+        
+    
+    # Ожидается вывод N количества статистики за N матчей
+    print(matches_futures)
+    
+
         # matches_futures.append(match.set_features())
         
         

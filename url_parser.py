@@ -1,6 +1,6 @@
 import os
-from tqdm import tqdm
 
+from tqdm import tqdm
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
@@ -58,9 +58,10 @@ class UrlParser:
 
     def get_html_from_url(self, url, folder, file_number):
         self.create_target_folder(folder)
+        self.setup_options()
         self.driver.get(url)
         html_content = self.driver.page_source
-
+        
         with open(os.path.join(os.getcwd(), folder, f'{file_number+1}_match.html'), 'w', encoding='utf-8') as f:
             f.write(html_content)
         return self
@@ -78,9 +79,9 @@ class UrlParser:
 class UrlParserFirefox(UrlParser):
     def __init__(self, browser):
         super().__init__(self)
-        self.setup_firefox_options()
+        self.setup_options()
 
-    def setup_firefox_options(self):
+    def setup_options(self):
         self.options = Options()
         self.options.headless = True
         self.service = Service(GeckoDriverManager().install())
@@ -92,9 +93,9 @@ class UrlParserFirefox(UrlParser):
 class UrlParserChrome(UrlParser):
     def __init__(self, browser):
         super().__init__(self)
-        self.setup_chrome_options()
+        self.setup_options()
 
-    def setup_chrome_options(self):
+    def setup_options(self):
         self.options = webdriver.ChromeOptions()
         self.options.add_argument('--headless')
         self.driver = webdriver.Chrome(options=self.options)
