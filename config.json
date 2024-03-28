@@ -3,5 +3,6 @@
     "folder": "matches_html",
     "browser": "chrome",
     "sport_type": "basketball",
-    "nums_url": "5"
+    "nums_url": "2",
+    "url_sample": "https://www.flashscorekz.com/match//#/match-summary/match-statistics/0"
 }

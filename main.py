@@ -4,7 +4,6 @@ import pandas as pd
 from html_manager import HtmlManager
 from url_parser import UrlParser
 from storage import Storage
-from match import Match
 
 
 class MainController:
@@ -37,11 +36,10 @@ class MainController:
             data = mat.get_features_list()
             df = mat.to_dataframe(data)
             df_res = pd.concat([df_res, df], ignore_index=True)
-        df_res.to_csv('all_match.csv', index=False)  
+        df_res.to_csv('all_match.csv', index=False)
         return self
             
         
 if __name__ == '__main__':
     facade = MainController()
     facade.save_basketball_matches_df()
-    

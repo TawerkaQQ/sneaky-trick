@@ -1,4 +1,4 @@
-from match import Match
+from basket_match import BasketMatch
 
 
 class Storage:
@@ -32,7 +32,7 @@ class BasketballStorage(Storage):
     
     def get_all_basket_matches(self):
         for soup in self.soups:
-            match = Match(soup)
+            match = BasketMatch(soup)
             match.set_features()
             match.set_columns()
             self.matches.append(match)

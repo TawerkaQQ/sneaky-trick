@@ -1,5 +1,6 @@
 import requests
 import tqdm
+import json
 
 from bs4 import BeautifulSoup
 
@@ -15,9 +16,10 @@ class Singleton(object):
 
 class HtmlManager(Singleton):
     def __init__(self):
+        with open('config.json', 'r', encoding='utf-8') as f:
+            self.url_sample = json.load(f)['url_sample']
         self.html_soup = None
         self.teams_ids = []
-        self.url_sample = 'https://www.flashscorekz.com/match//#/match-summary/match-statistics/0'
         self.url_list = []
 
     def work_with_html(self, file_name):
