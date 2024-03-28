@@ -1,5 +1,6 @@
 import pandas as pd
 
+from url_parser import UrlParser
 from bs4 import BeautifulSoup
 
 
@@ -29,6 +30,16 @@ class Match:
             print(feature)
         return ''
     
-    def to_dataframe(self):
-        pass
+    def features_to_dict(self, data):
+        dict = {}
+        for match in data:
+            keys = match[1]
+            values = match[0:3:2]
+            dict.update({'team1 ' + keys : values[0]})
+            dict.update({'team2 ' + keys : values[1]})
+        return dict
     
+    def to_dataframe(self, data):
+        dict = self.features_to_dict(data)
+        dataframe = pd.DataFrame([dict])
+        return dataframe

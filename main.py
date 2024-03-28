@@ -1,37 +1,50 @@
+import json
+import pandas as pd
+
 from html_manager import HtmlManager
 from url_parser import UrlParser
 from storage import Storage
 from match import Match
 
 
-if __name__ == "__main__":
-    file_name = 'all_match_xml.xml'
+class MainController:
+    def __init__(self):
+        self.data = self.setup_config_json()
+        self.file_name = self.data['file_name']
+        self.folder = self.data['folder']
+        self.html_manager = HtmlManager()
+        self.url_parser = UrlParser(self.data['browser'])
+        self.storage = Storage(self.data['sprot_type'])
 
-    # # Достали url
-    html_manager = HtmlManager()
-    html_manager.work_with_html(file_name)
-    urls = html_manager.get_all_url_matches()
+    def setup_config_json(self):
+        with open('config.json', 'r') as f:
+            data = json.load(f)
+        return data
 
-    # Проверка подключения
-    # html_manager._all_url_connection_check()
-
-    # Записиали html
-    folder = 'matches_html'
-    url_parser = UrlParser('chrome')
-    url_parser.parse_htmls(urls[:3], folder)
-
-    soups = url_parser.get_all_soups()[:3]
-    # url_parser.get_all_htmls_from_urls(urls[:3], folder)
-    # url_parser.get_soup_from_html('matches_html', )
-    # test = url_parser.set_all_soups_from_html(folder)
+    def set_basketball_df(self):
+        number_of_urls = int(self.data['nums_url'])
+        urls = self.html_manager.get_all_url_matches()
+        self.html_manager.work_with_html(self.file_name)
+        self.url_parser.parse_htmls(urls[:number_of_urls], self.folder)
+        soups = self.url_parser.get_all_soups()
+        self.storage.set_basket_soups(soups)
+        matches = self.storage.get_all_basket_matches()
+        df_res = pd.DataFrame()
+        for mat in matches:
+            data = mat.get_features_list()
+            df = mat.to_dataframe(data)
+            df_res = pd.concat([df_res, df], ignore_index=True)
+        df_res.to_csv('all_match.csv', index=False)  
+        return self
+            
+        
+if __name__ == '__main__':
     
-
-    storage = Storage('basketball')
-    storage.set_basket_soups(soups)
-    matches = storage.get_all_basket_matches()
+    facade = MainController()
+    facade.set_basketball_df()
     
-    print(matches)
-    print(matches[1])
+        
+        
 
     
     
