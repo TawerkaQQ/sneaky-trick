@@ -14,13 +14,6 @@ class Singleton(object):
 
 
 class HtmlManager(Singleton):
-    '''
-    Обрабатывает html, возвращает список url матчей
-    Использование:
-    html_manager = HTML_Manager()
-    html_manager.work_with_html(file_name)
-    url_list = html_manager.get_all_url_matches()
-    '''
     def __init__(self):
         self.html_soup = None
         self.teams_ids = []
@@ -68,6 +61,3 @@ class HtmlManager(Singleton):
         for url in tqdm.tqdm(self.url_list):
             self._url_connection_check(url)
         return self
-                 
-
-

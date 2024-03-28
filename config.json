@@ -2,6 +2,6 @@
     "file_name": "all_match_xml.xml",
     "folder": "matches_html",
     "browser": "chrome",
-    "sprot_type": "basketball",
+    "sport_type": "basketball",
     "nums_url": "5"
 }

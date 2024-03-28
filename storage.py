@@ -1,6 +1,3 @@
-import os
-import pandas as pd
-
 from match import Match
 
 
@@ -10,17 +7,18 @@ class Storage:
             return super().__new__(BasketballStorage)
         if sport_type == 'football':
             return super().__new__(FootballStorage)
-        if sport_type == 'tenis':
-            return super().__new__(TenisStorage)
+        if sport_type == 'tennis':
+            return super().__new__(TennisStorage)
         
     def __init__(self, sport_type):
         self.matches = []
 
-    
-    def get_basket_matches(self):
-        return self.matches
-        
+    def set_basket_soups(self, soups):
+        pass
 
+    def get_all_basket_matches(self):
+        pass
+        
 
 class BasketballStorage(Storage):
     def __init__(self, sport_type):
@@ -39,15 +37,13 @@ class BasketballStorage(Storage):
             match.set_columns()
             self.matches.append(match)
         return self.matches
-    
-    def get_matches(self):
-        return self.matches
         
         
 class FootballStorage (Storage):
     pass
 
-class TenisStorage (Storage):
+
+class TennisStorage (Storage):
     pass
         
         

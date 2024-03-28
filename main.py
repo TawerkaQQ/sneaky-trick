@@ -15,7 +15,7 @@ class MainController:
         
         self.html_manager = HtmlManager()
         self.url_parser = UrlParser(self.data['browser'])
-        self.storage = Storage(self.data['sprot_type'])
+        self.storage = Storage(self.data['sport_type'])
 
     def setup_config_json(self):
         with open('config.json', 'r') as f:
@@ -42,7 +42,6 @@ class MainController:
             
         
 if __name__ == '__main__':
-    
     facade = MainController()
     facade.save_basketball_matches_df()
     
