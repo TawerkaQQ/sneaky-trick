@@ -34,6 +34,7 @@ class BasketMatch:
         for key in sorted(team_pos_dict.keys()):
             names.append(team_pos_dict[key])
         return names
+    
     def set_columns(self):
         self.columns = [x[1] for x in self.features_list]
         return self
