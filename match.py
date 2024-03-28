@@ -25,11 +25,6 @@ class Match:
     def get_features_list(self):
         return self.features_list
 
-    def __str__(self):
-        for feature in self.features_list:
-            print(feature)
-        return ''
-    
     def features_to_dict(self, data):
         dict = {}
         for match in data:
@@ -43,3 +38,9 @@ class Match:
         dict = self.features_to_dict(data)
         dataframe = pd.DataFrame([dict])
         return dataframe
+    
+    def __str__(self):
+        for feature in self.features_list:
+            print(feature)
+        return ''
+    

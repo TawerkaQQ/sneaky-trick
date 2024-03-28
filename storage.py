@@ -36,7 +36,7 @@ class BasketballStorage(Storage):
         for soup in self.soups:
             match = Match(soup)
             match.set_features()
-            match.set_columns
+            match.set_columns()
             self.matches.append(match)
         return self.matches
     

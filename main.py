@@ -12,6 +12,7 @@ class MainController:
         self.data = self.setup_config_json()
         self.file_name = self.data['file_name']
         self.folder = self.data['folder']
+        
         self.html_manager = HtmlManager()
         self.url_parser = UrlParser(self.data['browser'])
         self.storage = Storage(self.data['sprot_type'])
@@ -21,14 +22,16 @@ class MainController:
             data = json.load(f)
         return data
 
-    def set_basketball_df(self):
+    def save_basketball_matches_df(self):
         number_of_urls = int(self.data['nums_url'])
         urls = self.html_manager.get_all_url_matches()
         self.html_manager.work_with_html(self.file_name)
+        
         self.url_parser.parse_htmls(urls[:number_of_urls], self.folder)
         soups = self.url_parser.get_all_soups()
         self.storage.set_basket_soups(soups)
         matches = self.storage.get_all_basket_matches()
+        
         df_res = pd.DataFrame()
         for mat in matches:
             data = mat.get_features_list()
@@ -41,11 +44,5 @@ class MainController:
 if __name__ == '__main__':
     
     facade = MainController()
-    facade.set_basketball_df()
-    
-        
-        
-
-    
-    
+    facade.save_basketball_matches_df()
     
