@@ -1,8 +1,8 @@
 {
-    "file_name": "all_match_xml.xml",
+    "file_name": "march_29_december_20.xml",
     "folder": "matches_html",
     "browser": "chrome",
     "sport_type": "basketball",
-    "nums_url": "2",
+    "nums_url": "all",
     "url_sample": "https://www.flashscorekz.com/match//#/match-summary/match-statistics/0"
 }

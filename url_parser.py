@@ -60,7 +60,7 @@ class UrlParser:
         self.create_target_folder(folder)
         self.setup_options()
         self.driver.get(url)
-        time.sleep(1.5)
+        time.sleep(10)
         html_content = self.driver.page_source
         with open(os.path.join(os.getcwd(), folder, f'{file_number+1}_match.html'), 'w+', encoding='utf-8') as f:
             f.write(html_content)

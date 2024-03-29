@@ -24,7 +24,7 @@ class MainController:
     def save_basketball_matches_df(self):
         urls = self.html_manager.get_all_url_matches()
         self.html_manager.work_with_html(self.file_name)
-        
+
         if self.data['nums_url'] == 'all':
             number_of_urls = len(urls)
         else:
