@@ -22,14 +22,20 @@ class MainController:
         return data
 
     def save_basketball_matches_df(self):
-        number_of_urls = int(self.data['nums_url'])
         urls = self.html_manager.get_all_url_matches()
         self.html_manager.work_with_html(self.file_name)
+        
+        if self.data['nums_url'] == 'all':
+            number_of_urls = len(urls)
+        else:
+            number_of_urls = int(self.data['nums_url'])
+            
         
         self.url_parser.parse_htmls(urls[:number_of_urls], self.folder)
         soups = self.url_parser.get_all_soups()
         self.storage.set_basket_soups(soups)
         matches = self.storage.get_all_basket_matches()
+        print(matches)
         
         df_res = pd.DataFrame()
         for mat in matches:
